@@ -4,13 +4,15 @@ import org.springframework.data.annotation.Id;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import java.util.Objects;
-
+@Entity
 public class Faculty {
+
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Entity
+
     private String name, color;
 
     public Faculty(){
@@ -23,14 +25,6 @@ public class Faculty {
         this.color = color;
     }
 
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -65,4 +59,6 @@ public class Faculty {
     public String toString() {
         return "Факультет №" + id + ":" + name + ", " + color;
     }
+
+
 }

@@ -13,7 +13,7 @@ public interface FacultyService {
 
     Faculty editFaculty(long id, Faculty faculty);
 
-    Faculty deleteFaculty(long id);
+    void deleteFaculty(long id);
 
     Collection<Faculty> findByColor(String color);
 }

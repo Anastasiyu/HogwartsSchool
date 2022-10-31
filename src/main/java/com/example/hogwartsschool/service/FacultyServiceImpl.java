@@ -1,6 +1,7 @@
 package com.example.hogwartsschool.service;
 
 import com.example.hogwartsschool.model.Faculty;
+import com.example.hogwartsschool.repositories.FacultyRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -8,39 +9,30 @@ import java.util.*;
 @Service
 public class FacultyServiceImpl implements  FacultyService{
 
-    private final HashMap<Long, Faculty> faculties = new HashMap<>();
-    private long count = 0;
+    private FacultyRepository facultyRepository;
+
+    public FacultyServiceImpl(FacultyRepository facultyRepository) {
+        this.facultyRepository = facultyRepository;
+    }
 
     public Faculty addFaculty(Faculty faculty) {
-        faculty.setId(count++);
-        faculties.put(faculty.getId(), faculty);
-        return faculty;
+        return facultyRepository.save(faculty);
     }
 
     public Faculty findFaculty(long id) {
-        return faculties.get(id);
+        return facultyRepository.findById(id).get();
     }
 
     public Faculty editFaculty(long id, Faculty faculty) {
-        if (!faculties.containsKey(id)) {
-            return null;
-        }
-        faculties.put(id, faculty);
-        return faculty;
+        return facultyRepository.save(faculty);
     }
 
-    public Faculty deleteFaculty(long id) {
-        return faculties.remove(id);
+    public void deleteFaculty(long id) {
+        facultyRepository.deleteById(id);
     }
 
     public Collection<Faculty> findByColor(String color) {
-        ArrayList<Faculty> result = new ArrayList<>();
-        for (Faculty faculty : faculties.values()) {
-            if (Objects.equals(faculty.getColor(), color)) {
-                result.add(faculty);
-            }
-        }
-        return result;
+        return facultyRepository.findAll();
     }
 
 }

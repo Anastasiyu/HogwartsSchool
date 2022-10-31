@@ -5,15 +5,16 @@ import org.springframework.data.annotation.Id;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import java.util.Objects;
-
+@Entity
 public class Student  {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Entity
+
     private String name;
-    @Entity
+
     private Integer age;
 
     public Student(){}
