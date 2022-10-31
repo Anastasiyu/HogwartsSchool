@@ -4,7 +4,7 @@ import com.example.hogwartsschool.model.Student;
 
 import java.util.Collection;
 
-public interface StudentServise {
+public interface StudentService {
     Student addStudent(Student student);
 
     Student findStudent(long id);
@@ -14,5 +14,4 @@ public interface StudentServise {
     Student deleteStudent(long id);
 
     Collection<Student> findByAge(int age);
-
 }

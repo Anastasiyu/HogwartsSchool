@@ -1,23 +1,22 @@
 package com.example.hogwartsschool.controller;
 
 import com.example.hogwartsschool.model.Student;
-
-import com.example.hogwartsschool.service.StudentServise;
+import com.example.hogwartsschool.service.StudentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-
 import java.util.Collection;
 import java.util.Collections;
 
+@SuppressWarnings("ALL")
 @RestController
 @RequestMapping("/student")
 public class StudentController {
-    private final StudentServise studentService;
+    private final StudentService studentServiсe;
+    private StudentService studentService;
 
-    public StudentController(StudentServise studentService) {
-        this.studentService = studentService;
+    public StudentController(StudentService studentServiсe) {
+        this.studentServiсe = studentServiсe;
     }
 
     @GetMapping("/id")
@@ -43,7 +42,7 @@ public class StudentController {
         return ResponseEntity.ok(foundStudent);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/id")
     public ResponseEntity<Void> deleteStudent(@PathVariable Long id) {
         studentService.deleteStudent(id);
         return ResponseEntity.ok().build();

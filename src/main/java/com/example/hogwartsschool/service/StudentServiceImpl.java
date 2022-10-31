@@ -1,13 +1,14 @@
 package com.example.hogwartsschool.service;
 
 import com.example.hogwartsschool.model.Student;
+import org.springframework.stereotype.Service;
 
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-
-public class StudentServiceImpl implements StudentServise {
+@Service
+public class StudentServiceImpl implements StudentService {
 
     private final HashMap <Long,Student> students = new HashMap<>();
     private long count = 0;
