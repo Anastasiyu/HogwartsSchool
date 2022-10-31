@@ -1,10 +1,19 @@
 package com.example.hogwartsschool.model;
 
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.data.annotation.Id;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import java.util.Objects;
 
 public class Student  {
+    @Id
+    @GeneratedValue
     private long id;
+    @Entity
     private String name;
+    @Entity
     private Integer age;
 
     public Student(){}

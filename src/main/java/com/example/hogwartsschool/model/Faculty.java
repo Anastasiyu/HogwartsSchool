@@ -1,9 +1,16 @@
 package com.example.hogwartsschool.model;
 
+import org.springframework.data.annotation.Id;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import java.util.Objects;
 
 public class Faculty {
+    @Id
+    @GeneratedValue
     private long id;
+    @Entity
     private String name, color;
 
     public Faculty(){
