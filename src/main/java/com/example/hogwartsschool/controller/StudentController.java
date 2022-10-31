@@ -8,18 +8,17 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Collection;
 import java.util.Collections;
 
-@SuppressWarnings("ALL")
+
 @RestController
 @RequestMapping("/student")
 public class StudentController {
-    private final StudentService studentServiсe;
-    private StudentService studentService;
+    private final StudentService studentService;
 
-    public StudentController(StudentService studentServiсe) {
-        this.studentServiсe = studentServiсe;
+    public StudentController(StudentService studentService) {
+        this.studentService = studentService;
     }
 
-    @GetMapping("/id")
+    @GetMapping("{id}")
     public ResponseEntity<Student> getStudentInfo(@PathVariable Long id) {
         Student student = studentService.findStudent(id);
         if (student == null) {
@@ -42,7 +41,7 @@ public class StudentController {
         return ResponseEntity.ok(foundStudent);
     }
 
-    @DeleteMapping("/id")
+    @DeleteMapping("{id}")
     public ResponseEntity<Void> deleteStudent(@PathVariable Long id) {
         studentService.deleteStudent(id);
         return ResponseEntity.ok().build();
@@ -50,7 +49,7 @@ public class StudentController {
 
     @GetMapping
     public ResponseEntity<Collection<Student>> findStudents(@RequestParam(required = false) int age) {
-        if (age > 0) {
+        if (age >= 0) {
             return ResponseEntity.ok(studentService.findByAge(age));
         }
         return ResponseEntity.ok(Collections.emptyList());

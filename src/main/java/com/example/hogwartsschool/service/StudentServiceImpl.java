@@ -14,7 +14,7 @@ public class StudentServiceImpl implements StudentService {
     private long count = 0;
 
     public Student addStudent(Student student) {
-        student.setId(count++);
+        student.setId(++count);
         students.put(student.getId(), student);
         return student;
     }
