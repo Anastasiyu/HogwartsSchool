@@ -1,17 +1,17 @@
 package com.example.hogwartsschool.service;
 
-import com.example.hogwartsschool.model.Student;
+import com.example.hogwartsschool.entity.Student;
 
 import java.util.Collection;
 
 public interface StudentService {
     Student addStudent(Student student);
 
-    Student findStudent(long id);
+    Student findStudent(Long id);
 
-    Student editStudent(long id, Student student);
+    Student editStudent(Long id, Student student);
 
-    void deleteStudent(long id);
+    void deleteStudent(Long id);
 
-    Collection<Student> findByAge(int age);
+    Collection<Student> findAllByAge(int age);
 }

@@ -1,6 +1,6 @@
 package com.example.hogwartsschool.service;
 
-import com.example.hogwartsschool.model.Faculty;
+import com.example.hogwartsschool.entity.Faculty;
 
 
 import java.util.Collection;
@@ -9,11 +9,11 @@ public interface FacultyService {
 
     Faculty addFaculty(Faculty faculty);
 
-    Faculty findFaculty(long id);
+    Faculty findFaculty(Long id);
 
-    Faculty editFaculty(long id, Faculty faculty);
+    Faculty editFaculty(Long id, Faculty faculty);
 
-    void deleteFaculty(long id);
+    void deleteFaculty(Long id);
 
-    Collection<Faculty> findByColor(String color);
+    Collection<Faculty> findAllByColor(String color);
 }

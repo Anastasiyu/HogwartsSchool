@@ -1,6 +1,6 @@
 package com.example.hogwartsschool.controller;
 
-import com.example.hogwartsschool.model.Student;
+import com.example.hogwartsschool.entity.Student;
 import com.example.hogwartsschool.service.StudentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -50,7 +50,7 @@ public class StudentController {
     @GetMapping
     public ResponseEntity<Collection<Student>> findStudents(@RequestParam(required = false) int age) {
         if (age > 0) {
-            return ResponseEntity.ok(studentService.findByAge(age));
+            return ResponseEntity.ok(studentService.findAllByAge(age));
         }
         return ResponseEntity.ok(Collections.emptyList());
     }

@@ -1,35 +1,29 @@
-package com.example.hogwartsschool.model;
+package com.example.hogwartsschool.entity;
 
-import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.annotation.Id;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.Table;
 import java.util.Objects;
 @Entity
+@Table(name = "students")
 public class Student  {
+    @javax.persistence.Id
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     private String name;
 
-    private Integer age;
+    private int age;
 
-    public Student(){}
-
-    public Student(long id, String name, Integer age) {
-        this.id = id;
-        this.name = name;
-        this.age = age;
-    }
-
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -41,11 +35,11 @@ public class Student  {
         this.name = name;
     }
 
-    public int getAge() {
+    public Integer getAge() {
         return age;
     }
 
-    public void setAge(int age) {
+    public void setAge(Integer age) {
         this.age = age;
     }
 
@@ -66,4 +60,6 @@ public class Student  {
     public String toString() {
         return "Студент №" + id + ": "+ name + ", "+ age;
     }
+
+
 }

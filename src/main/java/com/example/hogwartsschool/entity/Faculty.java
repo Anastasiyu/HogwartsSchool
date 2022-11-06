@@ -1,30 +1,32 @@
-package com.example.hogwartsschool.model;
+package com.example.hogwartsschool.entity;
 
 import org.springframework.data.annotation.Id;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.Table;
 import java.util.Objects;
+
 @Entity
+@Table(name = "faculties")
 public class Faculty {
 
+    @javax.persistence.Id
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
-    private String name, color;
+    private String name;
+    private String color;
 
-    public Faculty(){
-
+    public Long getId() {
+        return id;
     }
 
-    public Faculty(long id, String name, String color) {
+    public void setId(Long id) {
         this.id = id;
-        this.name = name;
-        this.color = color;
     }
-
 
     public String getName() {
         return name;

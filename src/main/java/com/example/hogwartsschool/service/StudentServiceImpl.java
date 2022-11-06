@@ -1,6 +1,6 @@
 package com.example.hogwartsschool.service;
 
-import com.example.hogwartsschool.model.Student;
+import com.example.hogwartsschool.entity.Student;
 import com.example.hogwartsschool.repositories.StudentRepository;
 import org.springframework.stereotype.Service;
 
@@ -21,23 +21,23 @@ public class StudentServiceImpl implements StudentService {
         return studentRepository.save(student);
     }
 
-    public Student findStudent(long id) {
+    public Student findStudent(Long id) {
 
         return studentRepository.findById(id).get();
     }
 
-    public Student editStudent(long id, Student student) {
+    public Student editStudent(Long id, Student student) {
         return studentRepository.save(student);
     }
 
-    public void deleteStudent(long id) {
+    public void deleteStudent(Long id) {
         studentRepository.deleteById(id);
 
 
     }
 
 
-    public Collection<Student> findByAge(int age) {
+    public Collection<Student> findAllByAge(int age) {
         return studentRepository.findAll();
     }
 
