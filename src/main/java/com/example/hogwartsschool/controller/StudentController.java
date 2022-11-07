@@ -1,10 +1,13 @@
 package com.example.hogwartsschool.controller;
 
 import com.example.hogwartsschool.entity.Student;
+import com.example.hogwartsschool.record.StudentRecord;
 import com.example.hogwartsschool.service.StudentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -17,40 +20,36 @@ public class StudentController {
     public StudentController(StudentService studentService) {
         this.studentService = studentService;
     }
+    @PostMapping
+    public StudentRecord create(@RequestBody @Valid StudentRecord studentRecord) {
+        return studentService.create(studentRecord);
+    }
+
 
     @GetMapping("{id}")
-    public ResponseEntity<Student> getStudentInfo(@PathVariable Long id) {
-        Student student = studentService.findStudent(id);
-        if (student == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(student);
+    public StudentRecord read(@PathVariable Long id) {
+        return studentService.read(id);
     }
 
-    @PostMapping
-    public Student createStudent(@RequestBody Student student) {
-        return studentService.addStudent(student);
+
+    @PutMapping("{id}")
+    public StudentRecord update(@PathVariable Long id,
+                          @RequestBody @Valid StudentRecord studentRecord) {
+        return studentService.update(id, studentRecord);
     }
 
-    @PutMapping
-    public ResponseEntity<Student> editStudent(@RequestBody Student student, @PathVariable Long id) {
-        Student foundStudent = studentService.editStudent(id, student);
-        if (foundStudent == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
-        return ResponseEntity.ok(foundStudent);
-    }
+
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Void> deleteStudent(@PathVariable Long id) {
-        studentService.deleteStudent(id);
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        studentService.delete(id);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping
-    public ResponseEntity<Collection<Student>> findStudents(@RequestParam(required = false) int age) {
+    public ResponseEntity<Collection<StudentRecord>> findStudents(@RequestParam(required = false) int age) {
         if (age > 0) {
-            return ResponseEntity.ok(studentService.findAllByAge(age));
+            return ResponseEntity.ok(studentService.findByAge(age));
         }
         return ResponseEntity.ok(Collections.emptyList());
     }

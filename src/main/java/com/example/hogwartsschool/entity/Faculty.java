@@ -1,11 +1,10 @@
 package com.example.hogwartsschool.entity;
 
+import com.example.hogwartsschool.record.FacultyRecord;
 import org.springframework.data.annotation.Id;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Collection;
 import java.util.Objects;
 
 @Entity
@@ -19,6 +18,18 @@ public class Faculty {
 
     private String name;
     private String color;
+
+
+    @OneToMany(mappedBy = "faculty")
+    private Collection<Faculty> faculties;
+
+    public Collection<Faculty> getFaculties() {
+        return faculties;
+    }
+
+    public void setFaculties(Collection<Faculty> faculties) {
+        this.faculties = faculties;
+    }
 
     public Long getId() {
         return id;
