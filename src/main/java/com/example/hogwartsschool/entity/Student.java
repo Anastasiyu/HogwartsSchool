@@ -1,6 +1,5 @@
 package com.example.hogwartsschool.entity;
 
-import com.example.hogwartsschool.record.StudentRecord;
 import org.springframework.data.annotation.Id;
 
 import javax.persistence.*;
@@ -8,9 +7,6 @@ import java.util.Objects;
 @Entity
 @Table(name = "students")
 public class Student  {
-    @ManyToOne
-    @JoinColumn(name = "faculty id")
-    private Student student;
 
 
     @javax.persistence.Id
@@ -22,12 +18,16 @@ public class Student  {
 
     private int age;
 
-    public Student getStudent() {
-        return student;
+    @ManyToOne
+    @JoinColumn(name = "faculty id")
+    private Faculty faculty;
+
+    public Faculty getFaculty() {
+        return faculty;
     }
 
-    public void setStudent(Student student) {
-        this.student = student;
+    public void setFaculty(Faculty faculty) {
+        this.faculty = faculty;
     }
 
     public Long getId() {
