@@ -20,13 +20,13 @@ public class Faculty {
     @OneToMany(mappedBy = "faculty")
     private Collection<Student> students;
 
-    // public Collection<Student> getStudents() {
-    //     return students;
-    //  }
+    public Collection<Student> getStudents() {
+        return students;
+    }
 
-    //  public void setStudents(Collection<Student> students) {
-    //      this.students = students;
-    //}
+    public void setStudents(Collection<Student> students) {
+        this.students = students;
+    }
 
 
     public Long getId() {

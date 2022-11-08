@@ -1,7 +1,5 @@
 package com.example.hogwartsschool.record;
 
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
@@ -13,7 +11,7 @@ public class StudentRecord {
     @NotBlank(message = "Имя студента должно быть заполнено!")
     private String name;
 
-    @Min(value = 17, message = "Минимальный возраст студента 17 лет!")
+    @Min(value = 15, message = "Минимальный возраст студента 15 лет!")
     @Max(value = 25, message = "Максимальный возраст студента 25 лет!")
     private int age;
 
