@@ -1,7 +1,5 @@
 package com.example.hogwartsschool.entity;
 
-import com.example.hogwartsschool.record.StudentRecord;
-
 import javax.persistence.*;
 import java.util.Arrays;
 import java.util.Objects;
@@ -86,7 +84,7 @@ public class Avatar {
         return student;
     }
 
-    public void setStudent(StudentRecord studentRecord) {
+    public void setStudent(Student student) {
         this.student = student;
     }
 

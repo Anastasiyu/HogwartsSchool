@@ -1,10 +1,13 @@
 package com.example.hogwartsschool.entity;
 
+import com.example.hogwartsschool.record.StudentRecord;
+
 import javax.persistence.*;
 import java.util.Objects;
+
 @Entity
 @Table(name = "students")
-public class Student  {
+public class Student extends StudentRecord {
 
 
     @Id
@@ -43,7 +46,7 @@ public class Student  {
         this.name = name;
     }
 
-    public Integer getAge() {
+    public int getAge() {
         return age;
     }
 

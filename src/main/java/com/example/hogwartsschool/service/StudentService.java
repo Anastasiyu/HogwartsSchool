@@ -21,12 +21,7 @@ import static java.nio.file.StandardOpenOption.CREATE_NEW;
 
 @Service
 public class StudentService {
-    private final AvatarRepository avatarRepository;
 
-    private final StudentRepository studentRepository;
-    private final RecordMapper recordMapper;
-    @Value("${Avatars.dir.path}")
-    private String avatarsDir;
 
     public StudentService(StudentRepository studentRepository,
                           RecordMapper recordMapper,
@@ -35,6 +30,14 @@ public class StudentService {
         this.recordMapper = recordMapper;
         this.avatarRepository = avatarRepository;
     }
+
+    private final AvatarRepository avatarRepository;
+
+    private final StudentRepository studentRepository;
+    private final RecordMapper recordMapper;
+    @Value("${Avatars.dir.path}")
+    private String avatarsDir;
+
 
     public StudentRecord create(StudentRecord studentRecord) {
         return recordMapper.toRecord(studentRepository.save(recordMapper.toEntity(studentRecord)));
@@ -94,7 +97,7 @@ public class StudentService {
 
         }
         Avatar avatar = avatarRepository.findByStudentId(studentId).orElseGet(Avatar::new);
-        avatar.setStudent(studentRecord);
+        avatar.setStudent((Student) studentRecord);
         avatar.setFilePath(filePath.toString());
         avatar.setFileSize(file.getSize());
         avatar.setMediaType(file.getContentType());

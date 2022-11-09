@@ -6,7 +6,6 @@ import javax.validation.constraints.NotBlank;
 
 public class StudentRecord {
 
-
     private Long id;
 
     @NotBlank(message = "Имя студента должно быть заполнено!")
@@ -40,5 +39,6 @@ public class StudentRecord {
     public void setAge(int age) {
         this.age = age;
     }
+
 
 }
