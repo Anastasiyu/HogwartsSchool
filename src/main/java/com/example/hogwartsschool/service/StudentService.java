@@ -88,7 +88,7 @@ public class StudentService {
         try (InputStream is = file.getInputStream();
              OutputStream ok = Files.newOutputStream(filePath, CREATE_NEW);
              BufferedInputStream bis = new BufferedInputStream(is, 1024);
-             BufferedOutputStream bok = new BufferedOutputStream(ok, 1024);
+             BufferedOutputStream bok = new BufferedOutputStream(ok, 1024)
         ) {
             bis.transferTo(bok);
 
