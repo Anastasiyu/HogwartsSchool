@@ -7,7 +7,7 @@ import com.example.hogwartsschool.record.FacultyRecord;
 import com.example.hogwartsschool.repositories.FacultyRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.Collection;
 import java.util.stream.Collectors;
 
 @Service
@@ -40,13 +40,19 @@ public class FacultyService{
 
 
     public FacultyRecord  delete(long id) {
-        Faculty faculty = facultyRepository.findById(id).orElseThrow(()-> new FacultyNotFoundExeption(id));
-       facultyRepository.delete(faculty);
-       return recordMapper.toRecord(faculty);
+        Faculty faculty = facultyRepository.findById(id).orElseThrow(() -> new FacultyNotFoundExeption(id));
+        facultyRepository.delete(faculty);
+        return recordMapper.toRecord(faculty);
     }
 
     public Collection<FacultyRecord> findByColor(String color) {
         return facultyRepository.findAllByColor(color).stream()
+                .map(recordMapper::toRecord)
+                .collect(Collectors.toList());
+    }
+
+    public Collection<FacultyRecord> findByNameOrColorIgnoreCase(String name, String color) {
+        return facultyRepository.findByNameOrColorIgnoreCase(name, color).stream()
                 .map(recordMapper::toRecord)
                 .collect(Collectors.toList());
     }

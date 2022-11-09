@@ -1,7 +1,5 @@
 package com.example.hogwartsschool.entity;
 
-import org.springframework.data.annotation.Id;
-
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Objects;
@@ -10,7 +8,7 @@ import java.util.Objects;
 @Table(name = "faculties")
 public class Faculty {
 
-    @javax.persistence.Id
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
