@@ -4,6 +4,7 @@ import com.example.hogwartsschool.component.RecordMapper;
 import com.example.hogwartsschool.entity.Faculty;
 import com.example.hogwartsschool.exception.FacultyNotFoundExeption;
 import com.example.hogwartsschool.record.FacultyRecord;
+import com.example.hogwartsschool.record.StudentRecord;
 import com.example.hogwartsschool.repositories.FacultyRepository;
 import org.springframework.stereotype.Service;
 
@@ -26,20 +27,21 @@ public class FacultyService{
     }
 
     public FacultyRecord read(long id) {
-       return recordMapper.toRecord(facultyRepository.findById(id).orElseThrow(() -> new FacultyNotFoundExeption(id)));
+        return recordMapper.toRecord(facultyRepository.findById(id).orElseThrow(() -> new FacultyNotFoundExeption(id)));
 
     }
 
-    public FacultyRecord update(Long id, FacultyRecord facultyRecord) {
+    public FacultyRecord update(long id,
+                                FacultyRecord facultyRecord) {
 
-        Faculty oldFaculty = facultyRepository.findById(id).orElseThrow(()-> new FacultyNotFoundExeption(id));
+        Faculty oldFaculty = facultyRepository.findById(id).orElseThrow(() -> new FacultyNotFoundExeption(id));
         oldFaculty.setName(facultyRecord.getName());
         oldFaculty.setColor(facultyRecord.getColor());
         return recordMapper.toRecord(facultyRepository.save(oldFaculty));
     }
 
 
-    public FacultyRecord  delete(long id) {
+    public FacultyRecord delete(long id) {
         Faculty faculty = facultyRepository.findById(id).orElseThrow(() -> new FacultyNotFoundExeption(id));
         facultyRepository.delete(faculty);
         return recordMapper.toRecord(faculty);
@@ -51,10 +53,16 @@ public class FacultyService{
                 .collect(Collectors.toList());
     }
 
-    public Collection<FacultyRecord> findByNameOrColorIgnoreCase(String name, String color) {
-        return facultyRepository.findByNameOrColorIgnoreCase(name, color).stream()
+    public Collection<FacultyRecord> findByNameOrColor(String nameOrColor,
+                                                       String color) {
+        return facultyRepository.findAllByColorIgnoreCaseOrNameIgnoreCase(nameOrColor, nameOrColor).stream()
                 .map(recordMapper::toRecord)
                 .collect(Collectors.toList());
     }
 
+    public Collection<StudentRecord> findStudentByFaculty(long id) {
+        return facultyRepository.findById(id).orElseThrow(() -> new FacultyNotFoundExeption(id)).getStudents().stream()
+                .map(recordMapper::toRecord)
+                .collect(Collectors.toList());
+    }
 }

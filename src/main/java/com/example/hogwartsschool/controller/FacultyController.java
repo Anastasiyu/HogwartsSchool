@@ -1,13 +1,13 @@
 package com.example.hogwartsschool.controller;
 
 import com.example.hogwartsschool.record.FacultyRecord;
+import com.example.hogwartsschool.record.StudentRecord;
 import com.example.hogwartsschool.service.FacultyService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Collection;
-import java.util.Collections;
+
 
 @RestController
 @RequestMapping("/faculty")
@@ -38,25 +38,25 @@ public class FacultyController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        facultyService.delete(id);
-        return ResponseEntity.ok().build();
+    public FacultyRecord delete(@PathVariable Long id) {
+
+        return facultyService.delete(id);
     }
 
-    @GetMapping
-    public ResponseEntity<Collection<FacultyRecord>> findFaculties(@RequestParam(required = false) String color) {
-        if (color != null && !color.isBlank()) {
-            return ResponseEntity.ok(facultyService.findByColor(color));
-        }
-        return ResponseEntity.ok(Collections.emptyList());
+    @GetMapping(params = "!colorOrName")
+    public Collection<FacultyRecord> findByColor(@RequestParam String color) {
+        return facultyService.findByColor(color);
     }
 
-    @GetMapping(value = "/ findByNameOrColorIgnoreCase")
-    public ResponseEntity<Collection<FacultyRecord>> findByNameOrColorIgnoreCase(@RequestParam(required = false) String string) {
-        if (string != null && !string.isBlank()) {
-            return ResponseEntity.ok(facultyService.findByNameOrColorIgnoreCase(string, string));
-        }
-        return ResponseEntity.ok(Collections.emptyList());
+    @GetMapping(params = "colorOrName")
+    public Collection<FacultyRecord> findByNameOrColor(@RequestParam String nameOrColor) {
+        return facultyService.findByNameOrColor(nameOrColor, nameOrColor);
+    }
+
+    @GetMapping("/{id}/student")
+    public Collection<StudentRecord> findStudentByFaculty(@PathVariable Long id) {
+        return facultyService.findStudentByFaculty(id);
+
     }
 
 }

@@ -16,16 +16,21 @@ public class ExceptionHandler {
     }
 
 
-
     @org.springframework.web.bind.annotation.ExceptionHandler(FacultyNotFoundExeption.class)
-    public ResponseEntity<String> handleFacultyNotFoundExeption(FacultyNotFoundExeption e){
+    public ResponseEntity<String> handleFacultyNotFoundExeption(FacultyNotFoundExeption e) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(String.format("Факкультет с id = %id не найден!", e.getId()));
     }
 
+    @org.springframework.web.bind.annotation.ExceptionHandler(AvatarNotFoundExeption.class)
+    public ResponseEntity<String> handleAvatarNotFoundExeption(AvatarNotFoundExeption e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(String.format("Аватар с id = %id не найден!", e.getId()));
+    }
+
 
     @org.springframework.web.bind.annotation.ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<String> handleMethodArgumentNotValidException(MethodArgumentNotValidException e){
+    public ResponseEntity<String> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(
                         e.getBindingResult().getFieldErrors().stream()

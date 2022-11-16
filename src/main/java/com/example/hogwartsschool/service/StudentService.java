@@ -1,46 +1,45 @@
 package com.example.hogwartsschool.service;
 
 import com.example.hogwartsschool.component.RecordMapper;
-import com.example.hogwartsschool.entity.Avatar;
+import com.example.hogwartsschool.entity.Faculty;
 import com.example.hogwartsschool.entity.Student;
 import com.example.hogwartsschool.exception.StudentNotFoundExeption;
+import com.example.hogwartsschool.record.FacultyRecord;
 import com.example.hogwartsschool.record.StudentRecord;
-import com.example.hogwartsschool.repositories.AvatarRepository;
+import com.example.hogwartsschool.repositories.FacultyRepository;
 import com.example.hogwartsschool.repositories.StudentRepository;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Collection;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static java.nio.file.StandardOpenOption.CREATE_NEW;
 
 @Service
 public class StudentService {
 
 
-    public StudentService(StudentRepository studentRepository,
-                          RecordMapper recordMapper,
-                          AvatarRepository avatarRepository) {
-        this.studentRepository = studentRepository;
-        this.recordMapper = recordMapper;
-        this.avatarRepository = avatarRepository;
-    }
-
-    private final AvatarRepository avatarRepository;
+    private final FacultyRepository facultyRepository;
 
     private final StudentRepository studentRepository;
-    private final RecordMapper recordMapper;
-    @Value("${Avatars.dir.path}")
-    private String avatarsDir;
 
+    public StudentService(StudentRepository studentRepository, FacultyRepository facultyRepository,
+                          RecordMapper recordMapper) {
+        this.studentRepository = studentRepository;
+        this.facultyRepository = facultyRepository;
+        this.recordMapper = recordMapper;
+    }
+
+    private final RecordMapper recordMapper;
 
     public StudentRecord create(StudentRecord studentRecord) {
-        return recordMapper.toRecord(studentRepository.save(recordMapper.toEntity(studentRecord)));
+        Student student = recordMapper.toEntity(studentRecord);
+        Faculty faculty = Optional.ofNullable(studentRecord.getFacultyRecord())
+                .map(FacultyRecord::getId)
+                .flatMap(facultyRepository::findById)
+                .orElse(null);
+        student.setFaculty(faculty);
+        return recordMapper.toRecord(studentRepository.save(student));
     }
 
     public StudentRecord read(long id) {
@@ -48,10 +47,17 @@ public class StudentService {
         return recordMapper.toRecord(studentRepository.findById(id).orElseThrow(() -> new StudentNotFoundExeption(id)));
     }
 
-    public StudentRecord update(long id, StudentRecord studentRecord) {
+    public StudentRecord update(long id,
+                                StudentRecord studentRecord) {
         Student oldStudent = studentRepository.findById(id).orElseThrow(() -> new StudentNotFoundExeption(id));
         oldStudent.setName(studentRecord.getName());
         oldStudent.setAge(studentRecord.getAge());
+        oldStudent.setFaculty(
+                Optional.ofNullable(studentRecord.getFacultyRecord())
+                        .map(FacultyRecord::getId)
+                        .flatMap(facultyRepository::findById)
+                        .orElse(null)
+        );
         return recordMapper.toRecord(studentRepository.save(oldStudent));
     }
 
@@ -71,43 +77,14 @@ public class StudentService {
                 .collect(Collectors.toList());
     }
 
-    public Collection<StudentRecord> findByAgeBetween(int min, int max) {
-        return studentRepository.findByAgeBetween(min, max).stream()
+    public Collection<StudentRecord> findByAgeBetween(int minAge,
+                                                      int maxAge) {
+        return studentRepository.findAllByAgeBetween(minAge, maxAge).stream()
                 .map(recordMapper::toRecord)
                 .collect(Collectors.toList());
     }
 
-    public Avatar readAvatar(long studentId) {
-        return avatarRepository.findByStudentId(studentId).orElseThrow();
+    public FacultyRecord findFacultyByStudent(long id) {
+        return read(id).getFacultyRecord();
     }
-
-    public void uploadAvatar(Long studentId, MultipartFile file) throws IOException {
-        StudentRecord studentRecord = read(studentId);
-
-        Path filePath = Path.of(avatarsDir, studentId + "." + getExtension(file.getOriginalFilename()));
-        Files.createDirectories(filePath.getParent());
-        Files.deleteIfExists(filePath);
-
-        try (InputStream is = file.getInputStream();
-             OutputStream ok = Files.newOutputStream(filePath, CREATE_NEW);
-             BufferedInputStream bis = new BufferedInputStream(is, 1024);
-             BufferedOutputStream bok = new BufferedOutputStream(ok, 1024)
-        ) {
-            bis.transferTo(bok);
-
-        }
-        Avatar avatar = avatarRepository.findByStudentId(studentId).orElseGet(Avatar::new);
-        avatar.setStudent((Student) studentRecord);
-        avatar.setFilePath(filePath.toString());
-        avatar.setFileSize(file.getSize());
-        avatar.setMediaType(file.getContentType());
-        avatar.setData(file.getBytes());
-        avatarRepository.save(avatar);
-    }
-
-
-    private String getExtension(String fileName) {
-        return fileName.substring(fileName.lastIndexOf(".") + 1);
-    }
-
 }

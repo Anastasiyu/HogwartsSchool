@@ -5,10 +5,8 @@ import java.util.Collection;
 import java.util.Objects;
 
 @Entity
-@Table(name = "faculties")
+@Table(name = "faculty")
 public class Faculty {
-
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

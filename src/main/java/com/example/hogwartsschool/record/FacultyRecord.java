@@ -1,8 +1,6 @@
 package com.example.hogwartsschool.record;
 
-import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
-import java.util.Collection;
 
 public class FacultyRecord {
     private Long id;
@@ -11,7 +9,7 @@ public class FacultyRecord {
     private String name;
 
     @NotBlank(message = "Цвет факультета должен быть заполнен!")
-    private  String color;
+    private String color;
 
 
     public Long getId() {

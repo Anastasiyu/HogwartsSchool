@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "students")
+@Table(name = "student")
 public class Student extends StudentRecord {
 
 
@@ -18,9 +18,11 @@ public class Student extends StudentRecord {
 
     private int age;
 
+
     @ManyToOne
     @JoinColumn(name = "faculty_id")
     private Faculty faculty;
+
 
     public Faculty getFaculty() {
         return faculty;
@@ -29,7 +31,6 @@ public class Student extends StudentRecord {
     public void setFaculty(Faculty faculty) {
         this.faculty = faculty;
     }
-
     public Long getId() {
         return id;
     }
