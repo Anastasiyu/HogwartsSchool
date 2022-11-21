@@ -8,7 +8,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.io.IOException;
+import java.util.List;
 
 
 @RestController
@@ -49,5 +52,10 @@ public class AvatarController {
                 .body(pair.getFirst());
     }
 
+    @GetMapping
+    public List<AvatarRecord> findByPagination(@RequestParam @Min(0) int page,
+                                               @RequestParam @Max(0) int size) {
+        return avatarServise.findByPagination(page, size);
+    }
 
 }

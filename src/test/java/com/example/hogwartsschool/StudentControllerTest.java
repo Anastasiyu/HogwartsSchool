@@ -1,10 +1,12 @@
 package com.example.hogwartsschool;
 
+import com.example.hogwartsschool.controller.StudentController;
 import com.example.hogwartsschool.record.FacultyRecord;
 import com.example.hogwartsschool.record.StudentRecord;
 import com.example.hogwartsschool.repositories.FacultyRepository;
 import com.example.hogwartsschool.repositories.StudentRepository;
 import com.github.javafaker.Faker;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +38,8 @@ public class StudentControllerTest {
     private StudentRepository studentRepository;
     @Autowired
     private FacultyRepository facultyRepository;
+    @Autowired
+    private StudentController studentController;
 
     @AfterEach
     public void afterEach() {
@@ -116,7 +120,7 @@ public class StudentControllerTest {
                 .collect(Collectors.toList());
 
         ResponseEntity<List<StudentRecord>> getForEntityResponse = testRestTemplate.exchange(
-                "http://localhost:" + port + "/student?minAge={minAge}&maxAge={maxAge}",
+                "http://localhost:" + port + "/student?min={minAge}&max={maxAge}",
                 HttpMethod.GET,
                 HttpEntity.EMPTY,
 
@@ -150,4 +154,16 @@ public class StudentControllerTest {
         return facultyRecord;
 
     }
+
+    @Test
+    void contexLoads() throws Exception {
+        Assertions.assertThat(studentController).isNotNull();
+    }
+
+    @Test
+    public void testGetStudent() throws Exception {
+        Assertions.assertThat(this.testRestTemplate.getForObject("http://localhost:" + port + "/student", String.class))
+                .isNotNull();
+    }
+
 }

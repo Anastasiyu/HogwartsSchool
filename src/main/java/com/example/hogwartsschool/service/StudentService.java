@@ -11,6 +11,7 @@ import com.example.hogwartsschool.repositories.StudentRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -86,5 +87,19 @@ public class StudentService {
 
     public FacultyRecord findFacultyByStudent(long id) {
         return read(id).getFacultyRecord();
+    }
+
+    public int totalCountOfStudents() {
+        return studentRepository.totalCountOfStudents();
+    }
+
+    public double averageAgeOfStudents() {
+        return studentRepository.averageAgeOfStudents();
+    }
+
+    public List<StudentRecord> lastStudents(int count) {
+        return studentRepository.lastStudents(count).stream()
+                .map(recordMapper::toRecord)
+                .collect(Collectors.toList());
     }
 }

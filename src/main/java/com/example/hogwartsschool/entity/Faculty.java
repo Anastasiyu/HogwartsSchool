@@ -16,6 +16,12 @@ public class Faculty {
     @OneToMany(mappedBy = "faculty")
     private Collection<Student> students;
 
+    public Faculty() {
+    }
+
+    public Faculty(long id, String name, String color) {
+    }
+
     public Collection<Student> getStudents() {
         return students;
     }

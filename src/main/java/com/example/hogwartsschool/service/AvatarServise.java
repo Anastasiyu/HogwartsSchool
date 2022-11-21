@@ -10,6 +10,7 @@ import com.example.hogwartsschool.record.AvatarRecord;
 import com.example.hogwartsschool.repositories.AvatarRepository;
 import com.example.hogwartsschool.repositories.StudentRepository;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,7 +18,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class AvatarServise {
@@ -68,6 +71,11 @@ public class AvatarServise {
     }
 
 
+    public List<AvatarRecord> findByPagination(int page, int size) {
+        return avatarRepository.findAll(PageRequest.of(page, size)).get()
+                .map(recordMapper::toRecord)
+                .collect(Collectors.toList());
+    }
 }
 
 
