@@ -4,4 +4,12 @@ FROM student s
 
 SELECT s.student_id
 FROM avatar s
-         INNER JOIN avatar a on a.id = s.student_id
+         INNER JOIN avatar a on a.id = s.student_id;
+
+SELECT s.name, s.age
+FROM student s
+         INNER JOIN avatar a on a.id = s.avatar_id;
+
+
+
+
