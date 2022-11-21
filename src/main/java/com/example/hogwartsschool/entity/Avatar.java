@@ -16,9 +16,9 @@ public class Avatar {
     private long fileSize;
     @Lob
     private byte[] data;
+
     @OneToOne
     private Student student;
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
