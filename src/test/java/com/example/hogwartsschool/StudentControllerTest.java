@@ -30,7 +30,6 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class StudentControllerTest {
 
-    private final Faker faker = new Faker();
     @LocalServerPort
     private int port;
     @Autowired
@@ -41,6 +40,7 @@ public class StudentControllerTest {
     private FacultyRepository facultyRepository;
     @Autowired
     private StudentController studentController;
+    private final Faker faker = new Faker();
 
     @AfterEach
     public void afterEach() {
