@@ -16,6 +16,12 @@ public class InfoController {
         this.infoService = infoService;
     }
 
+    @GetMapping
+    public void testParallelStream() {
+        infoService.testParallelStream();
+    }
+
+
     @Value("${server.port}")
     private int port;
 
