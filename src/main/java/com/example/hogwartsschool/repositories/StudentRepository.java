@@ -18,7 +18,7 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
     @Query(value = "SELECT count (id) FROM students", nativeQuery = true)
     int totalCountOfStudents();
 
-    @Query(value = "SELECT ovg((age) FROM students)", nativeQuery = true)
+    @Query(value = "SELECT avg(age) FROM students", nativeQuery = true)
     double averageAgeOfStudents();
 
     @Query(value = "SELECT * FROM students ORDER BY id DESC LIMIT : count", nativeQuery = true)
