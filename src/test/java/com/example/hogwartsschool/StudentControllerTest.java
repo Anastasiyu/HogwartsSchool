@@ -54,7 +54,7 @@ public class StudentControllerTest {
     }
 
     private FacultyRecord addFaculty(FacultyRecord facultyRecord) {
-        ResponseEntity<FacultyRecord> facultyRecordResponseEntity = testRestTemplate.postForEntity("http://localhost" + port + "/faculty", facultyRecord, FacultyRecord.class);
+        ResponseEntity<FacultyRecord> facultyRecordResponseEntity = testRestTemplate.postForEntity("http://localhost:" + port + "/faculty", facultyRecord, FacultyRecord.class);
         assertThat(facultyRecordResponseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(facultyRecordResponseEntity.getBody()).isNotNull();
         assertThat(facultyRecordResponseEntity.getBody()).usingRecursiveComparison().ignoringFields("id").isEqualTo(facultyRecord);
@@ -65,7 +65,7 @@ public class StudentControllerTest {
 
 
     private StudentRecord addStudent(StudentRecord studentRecord) {
-        ResponseEntity<StudentRecord> studentRecordResponseEntity = testRestTemplate.postForEntity("http://localhost" + port + "/student", studentRecord, StudentRecord.class);
+        ResponseEntity<StudentRecord> studentRecordResponseEntity = testRestTemplate.postForEntity("http://localhost:" + port + "/student", studentRecord, StudentRecord.class);
         assertThat(studentRecordResponseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(studentRecordResponseEntity.getBody()).isNotNull();
         assertThat(studentRecordResponseEntity.getBody()).usingRecursiveComparison().ignoringFields("id").isEqualTo(studentRecord);
@@ -81,7 +81,7 @@ public class StudentControllerTest {
         FacultyRecord facultyRecord2 = addFaculty(generateFaculty());
         StudentRecord studentRecord = addStudent(generateStudent(facultyRecord1));
 
-        ResponseEntity<StudentRecord> getForEntityResponse = testRestTemplate.getForEntity("http://localhost" + port + "/student" + studentRecord.getId(), StudentRecord.class);
+        ResponseEntity<StudentRecord> getForEntityResponse = testRestTemplate.getForEntity("http://localhost:" + port + "/student" + studentRecord.getId(), StudentRecord.class);
         assertThat(getForEntityResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(getForEntityResponse.getBody()).isNotNull();
         assertThat(getForEntityResponse.getBody()).usingRecursiveComparison().isEqualTo(studentRecord);
@@ -90,7 +90,7 @@ public class StudentControllerTest {
         studentRecord.setFacultyRecord(facultyRecord2);
 
         ResponseEntity<StudentRecord> recordResponseEntity = testRestTemplate.exchange(
-                "http://localhost" + port + "/student" + studentRecord.getId(),
+                "http://localhost:" + port + "/student" + studentRecord.getId(),
                 HttpMethod.PUT,
                 new HttpEntity<>(studentRecord),
                 StudentRecord.class
@@ -113,7 +113,8 @@ public class StudentControllerTest {
                 .map(this::addStudent)
                 .collect(Collectors.toList());
 
-        int minAge = 17;
+
+        int minAge = 16;
         int maxAge = 23;
 
         List<StudentRecord> expectedStudents = studentRecords.stream()
@@ -121,7 +122,7 @@ public class StudentControllerTest {
                 .collect(Collectors.toList());
 
         ResponseEntity<List<StudentRecord>> getForEntityResponse = testRestTemplate.exchange(
-                "http://localhost:" + port + "/student?min={minAge}&max={maxAge}",
+                "http://localhost:" + port + "/student?minAge={min}&maxAge={max}",
                 HttpMethod.GET,
                 HttpEntity.EMPTY,
 
